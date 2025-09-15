@@ -1,3 +1,3 @@
 ![banner](https://raw.githubusercontent.com/kurozenzen/kurosearch/main/brand/banner.png)
 
-# https://sevaktigranyan305-netizen.github.io/sevaksevaktigranyan305-netizen.github.io/
+# https://sevaktigranyan305-netizen.github.io
