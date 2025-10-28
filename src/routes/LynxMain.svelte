@@ -1,5 +1,8 @@
 <script lang="ts">
 	import lynxChibiSrc from '$lib/assets/lynxy-chibi.webp';
+	import lynxChibiHalloweenSrc from '$lib/assets/lynxy-chibi-halloween.webp';
+
+	let src = new Date().getMonth() === 9 ? lynxChibiHalloweenSrc : lynxChibiSrc;
 
 	let details = false;
 </script>
@@ -9,7 +12,7 @@
 	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 	<img
 		id="happy"
-		src={lynxChibiSrc}
+		{src}
 		alt="Helheim Lynx"
 		width="1231"
 		height="864"
@@ -29,12 +32,13 @@
 
 <style>
 	div {
+		position: relative;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		height: 200px;
-		contain: strict;
+		max-height: 200px;
 		padding-inline: var(--small-gap);
+		margin-block-end: -20px;
 	}
 
 	a {
@@ -48,13 +52,15 @@
 		display: flex;
 		gap: var(--small-gap);
 		border: solid 2px currentColor;
+		box-shadow: var(--default-shadow);
 	}
 
 	img {
 		display: block;
 		object-fit: contain;
-		height: min(100%, 150px);
-		width: min(100%, 214px);
+		max-height: 150px;
+		max-width: 214px;
 		aspect-ratio: 1231 / 864;
+		flex-grow: 1;
 	}
 </style>

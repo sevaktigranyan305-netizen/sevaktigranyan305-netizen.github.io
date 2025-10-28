@@ -4,6 +4,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { getVolume } from '../media-video/VolumeControl.svelte';
 	import PostOverlay from '../post-overlay/PostOverlay.svelte';
+	import { browser } from '$app/environment';
 
 	interface Props {
 		post: kurosearch.Post;
@@ -19,6 +20,8 @@
 	let sources = $derived(getVideoSources(post.file_url, post.sample_url, post.preview_url));
 
 	let currentTime = $state(0);
+	let buffered = $state([{ start: 0, end: 0 }]);
+	let bufferedTime = $derived(buffered.reduce((acc, cur) => Math.max(acc, cur.end), 0));
 	let paused = $state(false);
 	let loading = $state(false);
 	let duration: number = $state(1);
@@ -56,15 +59,15 @@
 	};
 
 	onMount(() => {
-		videoObserver.observe(video);
-		document.addEventListener('keydown', keybinds);
+		browser && videoObserver.observe(video);
+		browser && document.addEventListener('keydown', keybinds);
 		if (startAt !== undefined) {
 			video.currentTime = startAt;
 		}
 	});
 	onDestroy(() => {
-		videoObserver.unobserve(video);
-		document.removeEventListener('keydown', keybinds);
+		browser && videoObserver.unobserve(video);
+		browser && document.removeEventListener('keydown', keybinds);
 	});
 </script>
 
@@ -79,6 +82,7 @@
 	bind:currentTime
 	bind:paused
 	bind:duration
+	bind:buffered
 	onwaiting={() => (loading = true)}
 	onplaying={() => (loading = false)}
 	{onended}
@@ -98,6 +102,7 @@
 	{loading}
 	{ontoggleplay}
 	bind:currentTime
+	{bufferedTime}
 	{duration}
 	{ondetails}
 />
